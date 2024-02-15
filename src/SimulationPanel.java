@@ -60,7 +60,11 @@ public class SimulationPanel extends JPanel{
     }
 
     public void addWall(double x1, double y1, double x2, double y2){
-        walls.add(new Wall(x1, y1, x2, y2));
+        Wall wall = new Wall(x1, y1, x2, y2);
+        walls.add(wall);
+        wall.setBounds(0,0, 1280,720);
+        this.add(wall);
+        repaint();
     }
 
     public void updateSimulation(){

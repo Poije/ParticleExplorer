@@ -1,5 +1,12 @@
+import java.awt.BasicStroke;
+import java.awt.Color;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.RenderingHints;
 
-public class Wall {
+import javax.swing.JComponent;
+
+public class Wall extends JComponent{
     private double x1;
     private double y1;
     private double x2;
@@ -16,6 +23,7 @@ public class Wall {
             angle += 2 * Math.PI;
         }
         this.angle = angle;
+        repaint();
     }
 
     public double getX1() {
@@ -32,5 +40,19 @@ public class Wall {
     }
     public double getAngle() {
         return angle;
+    }
+
+    @Override
+    protected void paintComponent(Graphics g) {
+        super.paintComponent(g);
+        Graphics2D g2d = (Graphics2D) g;
+
+        g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON); // Enable antialiasing for smoother lines
+
+        // Draw each wall with appropriate color and thickness
+        g2d.setColor(Color.BLACK);
+        g2d.setStroke(new BasicStroke(2.0f)); // Set wall thickness
+        //System.out.println("(" + wall.getStart().x + ", " + wall.getStart().y + "), (" + wall.getEnd().x + ", " + wall.getEnd().y + ")");
+        g2d.drawLine((int) x1, (int) (720 - y1),(int) x2, (int) (720 - y2));
     }
 }
