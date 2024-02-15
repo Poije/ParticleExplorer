@@ -157,7 +157,7 @@ public class ParticleSimulation extends JFrame{
         wallFieldControlPanel.add(wallY2);
 
         wallControlPanel.add(wallFieldControlPanel);
-        wallAddButton = new JButton("Add Particle");
+        wallAddButton = new JButton("Add Wall");
         wallAddButton.setSize(230, 20);
         wallAddButton.addActionListener(new ActionListener() {
             @Override
