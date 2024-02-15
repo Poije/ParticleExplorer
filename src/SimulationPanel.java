@@ -1,15 +1,18 @@
 import java.awt.Color;
 import java.awt.Graphics;
+import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 import javax.swing.JPanel;
+import javax.swing.SwingUtilities;
 
 public class SimulationPanel extends JPanel{
-    private List<Particle> particles = new ArrayList<Particle>();
-    private List<Wall> walls = new ArrayList<Wall>();
+    private List<Particle> particles = Collections.synchronizedList(new ArrayList<Particle>());
+    private List<Wall> walls = Collections.synchronizedList(new ArrayList<Wall>());
     private final int SIMULATION_WIDTH = 1280;
     private final int SIMULATION_HEIGHT = 720;
     private final int THREAD_COUNT = 8;
@@ -22,7 +25,7 @@ public class SimulationPanel extends JPanel{
             while (true) {
                 updateSimulation();
                 try {
-                    Thread.sleep(10); // Adjust the sleep time as needed
+                    Thread.sleep(10);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
@@ -69,7 +72,11 @@ public class SimulationPanel extends JPanel{
 
     public void updateSimulation(){
         for (Particle particle : particles) {
-            particle.updatePosition(0.1);
+            particle.updatePosition(0.1, new ArrayList<Wall>(walls));
         }
+
+        SwingUtilities.invokeLater(() -> {
+            repaint();
+        });
     }
 }
