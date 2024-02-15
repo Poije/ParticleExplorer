@@ -98,17 +98,50 @@ public class ParticleSimulation extends JFrame{
         particleAddButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(java.awt.event.ActionEvent e){
-                int numParticles = Integer.parseInt(opt2N.getText());
-                double x = Double.parseDouble(opt1X.getText());
-                double y = Double.parseDouble(opt1Y.getText());
-                double velocity = Double.parseDouble(opt1V.getText());
-                double angle = Double.parseDouble(opt1A.getText());
+                String selectedOption = (String) addParticleDropdown.getSelectedItem();
 
-                opt2N.setText("");
-                opt1X.setText("");
-                opt1Y.setText("");
-                opt1V.setText("");
-                opt1A.setText("");
+                switch (selectedOption) {
+                    case "Single Particle":
+                        double o1x = Double.parseDouble(opt1X.getText());
+                        double o1y = Double.parseDouble(opt1Y.getText());
+                        double o1angle = Double.parseDouble(opt1A.getText());
+                        double o1velocity = Double.parseDouble(opt1V.getText());
+
+                        simulationPanel.opt1Add(o1x, o1y, o1angle, o1velocity);
+                        break;
+                    case "Multiple Particle, Varying Start":
+                        int o2n = Integer.parseInt(opt2N.getText());
+                        double o2x1 = Double.parseDouble(opt2X1.getText());
+                        double o2y1 = Double.parseDouble(opt2Y1.getText());
+                        double o2x2 = Double.parseDouble(opt2X2.getText());
+                        double o2y2 = Double.parseDouble(opt2Y2.getText());
+                        double o2angle = Double.parseDouble(opt2A.getText());
+                        double o2velocity = Double.parseDouble(opt2V.getText());
+
+                        simulationPanel.opt2Add(o2n, o2x1, o2y1, o2x2, o2y2, o2angle, o2velocity);
+                        break;
+                    case "Multiple Particle, Varying Angle":
+                        int o3n = Integer.parseInt(opt3N.getText());
+                        double o3x = Double.parseDouble(opt3X.getText());
+                        double o3y = Double.parseDouble(opt3Y.getText());
+                        double o3angle1 = Double.parseDouble(opt3A1.getText());
+                        double o3angle2 = Double.parseDouble(opt3A2.getText());
+                        double o3velocity = Double.parseDouble(opt3V.getText());
+
+                        simulationPanel.opt3Add(o3n, o3x, o3y, o3angle1, o3angle2, o3velocity);
+                        break;
+                        case "Multiple Particle, Varying Velocity":
+                        int o4n = Integer.parseInt(opt4N.getText());
+                        double o4x = Double.parseDouble(opt4X.getText());
+                        double o4y = Double.parseDouble(opt4Y.getText());
+                        double o4angle = Double.parseDouble(opt4A.getText());
+                        double o4velocity1 = Double.parseDouble(opt4V1.getText());
+                        double o4velocity2 = Double.parseDouble(opt4V2.getText());
+
+                        simulationPanel.opt4Add(o4n, o4x, o4y, o4angle, o4velocity1, o4velocity2);
+                        break;
+                }
+                clearAllParticleFields();
             }
         });
         particleControlPanel.add(particleAddButton);
@@ -130,20 +163,45 @@ public class ParticleSimulation extends JFrame{
         wallAddButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(java.awt.event.ActionEvent e){
-                int numParticles = Integer.parseInt(wallX.getText());
-                double x = Double.parseDouble(wallY.getText());
-                double y = Double.parseDouble(wallLength.getText());
-                double velocity = Double.parseDouble(wallAngle.getText());
+                int x = Integer.parseInt(wallX.getText());
+                double y = Double.parseDouble(wallY.getText());
+                double length = Double.parseDouble(wallLength.getText());
+                double angle = Double.parseDouble(wallAngle.getText());
 
-                opt2N.setText("");
-                opt1X.setText("");
-                opt1Y.setText("");
-                opt1V.setText("");
-                opt1A.setText("");
+                wallX.setText("");
+                wallY.setText("");
+                wallLength.setText("");
+                wallAngle.setText("");
             }
         });
         wallControlPanel.add(wallAddButton);
         controlPanel.add(wallControlPanel);
+    }
+
+    public void clearAllParticleFields(){
+        opt1X.setText("");
+        opt1Y.setText("");
+        opt1A.setText("");
+        opt1V.setText("");
+        opt2N.setText("");
+        opt2X1.setText("");
+        opt2Y1.setText("");
+        opt2X2.setText("");
+        opt2Y2.setText("");
+        opt2A.setText("");
+        opt2V.setText("");
+        opt3N.setText("");
+        opt3X.setText("");
+        opt3Y.setText("");
+        opt3A1.setText("");
+        opt3A2.setText("");
+        opt3V.setText("");
+        opt4N.setText("");
+        opt4X.setText("");
+        opt4Y.setText("");
+        opt4A.setText("");
+        opt4V1.setText("");
+        opt4V2.setText("");
     }
 
     public JPanel createOpt1Panel(){
