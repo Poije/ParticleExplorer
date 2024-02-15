@@ -16,7 +16,6 @@ import javax.swing.JTextField;
 
 public class ParticleSimulation extends JFrame{
     //private final ExecutorService executorService;
-    private final int THREAD_COUNT = 8;
     private final SimulationPanel simulationPanel;
     private final JPanel particleControlPanel = new JPanel(null);
     private final JPanel controlPanel = new JPanel(null);
@@ -49,10 +48,10 @@ public class ParticleSimulation extends JFrame{
     private JTextField opt4A = new JTextField();
     private JTextField opt4V1 = new JTextField();
     private JTextField opt4V2 = new JTextField();
-    private JTextField wallX = new JTextField();
-    private JTextField wallY = new JTextField();
-    private JTextField wallLength = new JTextField();
-    private JTextField wallAngle = new JTextField();
+    private JTextField wallX1 = new JTextField();
+    private JTextField wallY1 = new JTextField();
+    private JTextField wallX2 = new JTextField();
+    private JTextField wallY2 = new JTextField();
 
     public ParticleSimulation(){
         super("Particle Simulation");
@@ -79,8 +78,8 @@ public class ParticleSimulation extends JFrame{
             @Override
             public void actionPerformed(java.awt.event.ActionEvent e) {
                 updateParticleFieldControlPanel();
-                revalidate();
-                repaint();
+                particleFieldControlPanel.revalidate();
+                particleFieldControlPanel.repaint();
             }
         });
         particleControlPanel.add(addParticleDropdown);
@@ -148,14 +147,14 @@ public class ParticleSimulation extends JFrame{
         controlPanel.add(particleControlPanel);
         wallControlPanel.setLayout(new BoxLayout(wallControlPanel, BoxLayout.Y_AXIS));
         wallFieldControlPanel.setLayout(new GridLayout(0,2));
-        wallFieldControlPanel.add(new JLabel("X:"));
-        wallFieldControlPanel.add(wallX);
-        wallFieldControlPanel.add(new JLabel("Y:"));
-        wallFieldControlPanel.add(wallY);
-        wallFieldControlPanel.add(new JLabel("Length:"));
-        wallFieldControlPanel.add(wallLength);
-        wallFieldControlPanel.add(new JLabel("Angle:"));
-        wallFieldControlPanel.add(wallAngle);
+        wallFieldControlPanel.add(new JLabel("X1:"));
+        wallFieldControlPanel.add(wallX1);
+        wallFieldControlPanel.add(new JLabel("Y1:"));
+        wallFieldControlPanel.add(wallY1);
+        wallFieldControlPanel.add(new JLabel("X2:"));
+        wallFieldControlPanel.add(wallX2);
+        wallFieldControlPanel.add(new JLabel("Y2:"));
+        wallFieldControlPanel.add(wallY2);
 
         wallControlPanel.add(wallFieldControlPanel);
         wallAddButton = new JButton("Add Particle");
@@ -163,15 +162,17 @@ public class ParticleSimulation extends JFrame{
         wallAddButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(java.awt.event.ActionEvent e){
-                int x = Integer.parseInt(wallX.getText());
-                double y = Double.parseDouble(wallY.getText());
-                double length = Double.parseDouble(wallLength.getText());
-                double angle = Double.parseDouble(wallAngle.getText());
+                double x1 = Integer.parseInt(wallX1.getText());
+                double y1 = Double.parseDouble(wallY1.getText());
+                double x2 = Integer.parseInt(wallX2.getText());
+                double y2 = Double.parseDouble(wallY2.getText());
 
-                wallX.setText("");
-                wallY.setText("");
-                wallLength.setText("");
-                wallAngle.setText("");
+                simulationPanel.addWall(x1, y1, x2, y2);
+
+                wallX1.setText("");
+                wallY1.setText("");
+                wallX2.setText("");
+                wallY2.setText("");
             }
         });
         wallControlPanel.add(wallAddButton);
@@ -255,7 +256,6 @@ public class ParticleSimulation extends JFrame{
 
         return panel;
     }
-    
 
     public JPanel createOpt4Panel(){
         JPanel panel = new JPanel(new GridLayout(0,2));
@@ -279,8 +279,8 @@ public class ParticleSimulation extends JFrame{
         String selectedMethod = (String) addParticleDropdown.getSelectedItem();
         CardLayout cardLayout = (CardLayout) particleFieldControlPanel.getLayout();
         cardLayout.show(particleFieldControlPanel, selectedMethod);
-        revalidate();
-        repaint();
+        particleFieldControlPanel.revalidate();
+        particleFieldControlPanel.repaint();
     }
 
     public static void main(String[] args) {
