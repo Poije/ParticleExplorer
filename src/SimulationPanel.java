@@ -17,6 +17,8 @@ public class SimulationPanel extends JPanel{
     private final int SIMULATION_HEIGHT = 720;
     private final int THREAD_COUNT = 8;
     private final ExecutorService executorService = Executors.newFixedThreadPool(THREAD_COUNT);
+    public int frameCount = 0;
+    public long lastFPSCheck = 0;
 
     public SimulationPanel(){
         setBounds(50, 50, SIMULATION_WIDTH, SIMULATION_HEIGHT);
@@ -24,6 +26,12 @@ public class SimulationPanel extends JPanel{
         executorService.execute(() -> {
             while (true) {
                 updateSimulation();
+                frameCount++;
+                if (System.nanoTime() > lastFPSCheck + 1000000000){
+                    System.out.println("FPS: " + frameCount);
+                    frameCount = 0;
+                    lastFPSCheck = System.nanoTime();
+                }
                 try {
                     Thread.sleep(10);
                 } catch (InterruptedException e) {

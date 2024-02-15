@@ -5,3 +5,10 @@ bin/ParticleSimulation$2.class
 bin/ParticleSimulation$3.class
 bin/SimulationPanel.class
 bin/Wall.class
+src/Particle.class
+src/ParticleSimulation.class
+src/ParticleSimulation$1.class
+src/ParticleSimulation$2.class
+src/ParticleSimulation$3.class
+src/SimulationPanel.class
+src/Wall.class
