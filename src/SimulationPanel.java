@@ -17,7 +17,7 @@ public class SimulationPanel extends JPanel{
     private final int SIMULATION_HEIGHT = 720;
     private final int THREAD_COUNT = 8;
     private final ExecutorService executorService = Executors.newFixedThreadPool(THREAD_COUNT);
-    public int frameCount = 0;
+    public static int frameCount = 0;
     public long lastFPSCheck = 0;
 
     public SimulationPanel(){
@@ -28,7 +28,8 @@ public class SimulationPanel extends JPanel{
                 updateSimulation();
                 frameCount++;
                 if (System.nanoTime() > lastFPSCheck + 1000000000){
-                    System.out.println("FPS: " + frameCount);
+                    //System.out.println("FPS: " + frameCount);
+                    ParticleSimulation.fpsLabel.setText("FPS: " + frameCount);
                     frameCount = 0;
                     lastFPSCheck = System.nanoTime();
                 }

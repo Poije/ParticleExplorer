@@ -52,6 +52,7 @@ public class ParticleSimulation extends JFrame{
     private JTextField wallY1 = new JTextField();
     private JTextField wallX2 = new JTextField();
     private JTextField wallY2 = new JTextField();
+    public static JLabel fpsLabel = new JLabel("FPS: 0");
 
     public ParticleSimulation(){
         super("Particle Simulation");
@@ -65,6 +66,8 @@ public class ParticleSimulation extends JFrame{
         add(simulationPanel);
         createControlPanel();
         add(controlPanel);
+        fpsLabel.setBounds(1380, 0, 250, 50);
+        add(fpsLabel);
     }
 
     public void createControlPanel(){
