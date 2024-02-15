@@ -71,10 +71,12 @@ public class SimulationPanel extends JPanel{
     }
 
     public void updateSimulation(){
-        for (Particle particle : particles) {
-            particle.updatePosition(0.1, new ArrayList<Wall>(walls));
+        synchronized (particles){
+            for (Particle particle : particles) {
+                particle.updatePosition(0.1, new ArrayList<Wall>(walls));
+            }
         }
-
+        
         SwingUtilities.invokeLater(() -> {
             repaint();
         });
