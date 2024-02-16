@@ -24,13 +24,13 @@ public class SimulationPanel extends JPanel{
         executorService.execute(() -> {
             while (true) {
                 updateSimulation();
-                frameCount++;
+                /*frameCount++;
                 if (System.nanoTime() > lastFPSCheck + 1000000000){
                     //System.out.println("FPS: " + frameCount);
                     ParticleSimulation.fpsLabel.setText("FPS: " + frameCount);
                     frameCount = 0;
                     lastFPSCheck = System.nanoTime();
-                }
+                }*/
                 try {
                     Thread.sleep(10);
                 } catch (InterruptedException e) {
@@ -45,7 +45,7 @@ public class SimulationPanel extends JPanel{
         this.particles.add(particle);
         particle.setBounds(0,0, 1280,720);
         this.add(particle);
-        updateSimulation();
+        //updateSimulation();
     }
 
     public void opt2Add(int n, double x1, double y1, double x2, double y2, double angle, double velocity){
@@ -79,18 +79,13 @@ public class SimulationPanel extends JPanel{
     }
 
     public void updateSimulation(){
-        /*synchronized (this.particles){
+        synchronized (this.particles){
             synchronized(this.walls){
                 for (Particle particle : this.particles) {
                     particle.updatePosition(0.1, walls);
                 }
             }
         }
-        SwingUtilities.invokeLater(this::repaint);*/
-        for (Particle particle : this.particles) {
-            System.out.println(particles.size());
-            particle.updatePosition(0.1, this.walls);
-        }
-        repaint();
+        SwingUtilities.invokeLater(this::repaint);
     }
 }
