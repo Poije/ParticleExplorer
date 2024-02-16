@@ -13,6 +13,7 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
+import javax.swing.SwingUtilities;
 
 public class ParticleSimulation extends JFrame{
     //private final ExecutorService executorService;
@@ -25,6 +26,7 @@ public class ParticleSimulation extends JFrame{
     private final JPanel particleFieldControlPanel = new JPanel(null);
     private final JPanel wallControlPanel = new JPanel(null);
     private final JPanel wallFieldControlPanel = new JPanel(null);
+    private JPanel opt1Panel, opt2Panel, opt3Panel, opt4Panel;
     private JTextField opt1X = new JTextField();
     private JTextField opt1Y = new JTextField();
     private JTextField opt1V = new JTextField();
@@ -81,8 +83,6 @@ public class ParticleSimulation extends JFrame{
             @Override
             public void actionPerformed(java.awt.event.ActionEvent e) {
                 updateParticleFieldControlPanel();
-                particleFieldControlPanel.revalidate();
-                particleFieldControlPanel.repaint();
             }
         });
         particleControlPanel.add(addParticleDropdown);
@@ -90,10 +90,14 @@ public class ParticleSimulation extends JFrame{
         particleFieldControlPanel.setLayout(new CardLayout());
         //particleFieldControlPanel.setMinimumSize(new Dimension(250, 320));
         //particleFieldControlPanel.setMaximumSize(new Dimension(250, 320));
-        particleFieldControlPanel.add(createOpt1Panel(), "Single Particle");
-        particleFieldControlPanel.add(createOpt2Panel(), "Multiple Particle, Varying Start");
-        particleFieldControlPanel.add(createOpt3Panel(), "Multiple Particle, Varying Angle");
-        particleFieldControlPanel.add(createOpt4Panel(), "Multiple Particle, Varying Velocity");
+        opt1Panel = createOpt1Panel();
+        opt2Panel = createOpt2Panel();
+        opt3Panel = createOpt3Panel();
+        opt4Panel = createOpt4Panel();
+        particleFieldControlPanel.add(opt1Panel, "Single Particle");
+        particleFieldControlPanel.add(opt2Panel, "Multiple Particle, Varying Start");
+        particleFieldControlPanel.add(opt3Panel, "Multiple Particle, Varying Angle");
+        particleFieldControlPanel.add(opt4Panel, "Multiple Particle, Varying Velocity");
         particleControlPanel.add(particleFieldControlPanel);
         particleAddButton = new JButton("Add Particle");
         particleAddButton.setMinimumSize(new Dimension(250, 20));
@@ -278,15 +282,14 @@ public class ParticleSimulation extends JFrame{
         return panel;
     }
     
-    public void updateParticleFieldControlPanel(){
+    public void updateParticleFieldControlPanel() {
         String selectedMethod = (String) addParticleDropdown.getSelectedItem();
         CardLayout cardLayout = (CardLayout) particleFieldControlPanel.getLayout();
         cardLayout.show(particleFieldControlPanel, selectedMethod);
-        particleFieldControlPanel.revalidate();
-        particleFieldControlPanel.repaint();
+        simulationPanel.repaint();
     }
 
     public static void main(String[] args) {
-        new ParticleSimulation().setVisible(true);
+        SwingUtilities.invokeLater(() -> new ParticleSimulation().setVisible(true));
     }
 }

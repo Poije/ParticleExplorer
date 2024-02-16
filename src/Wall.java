@@ -5,6 +5,7 @@ import java.awt.Graphics2D;
 import java.awt.RenderingHints;
 
 import javax.swing.JComponent;
+import javax.swing.SwingUtilities;
 
 public class Wall extends JComponent{
     private double x1;
@@ -23,7 +24,6 @@ public class Wall extends JComponent{
             angle += 2 * Math.PI;
         }
         this.angle = angle;
-        repaint();
     }
 
     public double getX1() {

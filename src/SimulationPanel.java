@@ -1,6 +1,4 @@
 import java.awt.Color;
-import java.awt.Graphics;
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -47,6 +45,7 @@ public class SimulationPanel extends JPanel{
         this.particles.add(particle);
         particle.setBounds(0,0, 1280,720);
         this.add(particle);
+        updateSimulation();
     }
 
     public void opt2Add(int n, double x1, double y1, double x2, double y2, double angle, double velocity){
@@ -76,18 +75,22 @@ public class SimulationPanel extends JPanel{
         walls.add(wall);
         wall.setBounds(0,0, 1280,720);
         this.add(wall);
-        repaint();
+        SwingUtilities.invokeLater(this::repaint);
     }
 
     public void updateSimulation(){
-        synchronized (particles){
-            for (Particle particle : particles) {
-                particle.updatePosition(0.1, new ArrayList<Wall>(walls));
+        /*synchronized (this.particles){
+            synchronized(this.walls){
+                for (Particle particle : this.particles) {
+                    particle.updatePosition(0.1, walls);
+                }
             }
         }
-        
-        SwingUtilities.invokeLater(() -> {
-            repaint();
-        });
+        SwingUtilities.invokeLater(this::repaint);*/
+        for (Particle particle : this.particles) {
+            System.out.println(particles.size());
+            particle.updatePosition(0.1, this.walls);
+        }
+        repaint();
     }
 }
