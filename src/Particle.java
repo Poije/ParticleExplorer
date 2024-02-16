@@ -89,7 +89,6 @@ public class Particle extends JComponent{
     @Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
-        System.out.println("(" + getXCoord() + ", " + getYCoord() + ")");
         g.setColor(Color.RED);
         g.fillOval((int) x_coord - 5, 720 - (int)y_coord - 5, 10, 10);
     }

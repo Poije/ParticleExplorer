@@ -14,7 +14,8 @@ public class SimulationPanel extends JPanel{
     private final int SIMULATION_WIDTH = 1280;
     private final int SIMULATION_HEIGHT = 720;
     private final int THREAD_COUNT = 8;
-    private final ExecutorService executorService = Executors.newFixedThreadPool(THREAD_COUNT);
+    //private final ExecutorService executorService = Executors.newFixedThreadPool(THREAD_COUNT);
+    private final ExecutorService executorService = Executors.newWorkStealingPool();
     public static int frameCount = 0;
     public static int previousFPS = 0;
     public long lastFPSCheck = 0;
@@ -25,7 +26,7 @@ public class SimulationPanel extends JPanel{
         executorService.execute(() -> {
             while (true) {
                 updateSimulation();
-                frameCount++;
+                
                 try {
                     Thread.sleep(10);
                 } catch (InterruptedException e) {
@@ -77,12 +78,13 @@ public class SimulationPanel extends JPanel{
         
         g.setColor(Color.BLACK);
         g.setFont(new Font("Arial", Font.BOLD, 12));
-        //g.drawString("FPS: " + 0, 10, 20);
-        if (System.nanoTime() > lastFPSCheck + 1000000000){
+        long currentTime = System.currentTimeMillis();
+        if (currentTime - lastFPSCheck >= 500){
+            frameCount = (int) (frameCount / ((currentTime - lastFPSCheck) / 1000.0));
             g.drawString("FPS: " + frameCount, 10, 20);
             previousFPS = frameCount;
             frameCount = 0;
-            lastFPSCheck = System.nanoTime();
+            lastFPSCheck = currentTime;
         }
         else{
             g.drawString("FPS: " + previousFPS, 10, 20);
@@ -98,5 +100,6 @@ public class SimulationPanel extends JPanel{
             }
         }
         SwingUtilities.invokeLater(this::repaint);
+        frameCount++;
     }
 }
