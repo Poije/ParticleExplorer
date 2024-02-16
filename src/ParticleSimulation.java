@@ -45,8 +45,7 @@ public class ParticleSimulation extends JFrame{
     private JCheckBox opt2 = new JCheckBox();
     private JCheckBox opt3 = new JCheckBox();
     private JCheckBox opt4 = new JCheckBox();
-    public static JLabel fpsLabel = new JLabel("FPS: 0");
-
+    
     public ParticleSimulation(){
         super("Particle Simulation");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -59,8 +58,6 @@ public class ParticleSimulation extends JFrame{
         add(simulationPanel);
         createControlPanel();
         add(controlPanel);
-        fpsLabel.setBounds(1380, 0, 250, 50);
-        add(fpsLabel);
     }
 
     public void createControlPanel(){
