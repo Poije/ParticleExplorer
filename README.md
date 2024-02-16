@@ -1,18 +1,13 @@
-## Getting Started
+# Problem Set #1: Concurrent Programming w/o Dependencies
+## Members
 
-Welcome to the VS Code Java world. Here is a guideline to help you get started to write Java code in Visual Studio Code.
+- MARTINEZ, Kyle
+- Piano, Gabriel Edward
 
-## Folder Structure
+## How to Run and Use
 
-The workspace contains two folders by default, where:
+- Open the `.jar` file in the main project folder. Or in a command line interface on the project main folder, use the command `java -jar ParticleSimulation.jar`
+- To add a single particle, make sure no checkbox is enabled and fill out the first four fields.
+- To add multiple balls, check the checkbox beside the option to be used and ensure that the enabled fields are all filled out.
+- To stop the program, simply close the program
 
-- `src`: the folder to maintain sources
-- `lib`: the folder to maintain dependencies
-
-Meanwhile, the compiled output files will be generated in the `bin` folder by default.
-
-> If you want to customize the folder structure, open `.vscode/settings.json` and update the related settings there.
-
-## Dependency Management
-
-The `JAVA PROJECTS` view allows you to manage your dependencies. More details can be found [here](https://github.com/microsoft/vscode-java-dependency#manage-dependencies).
