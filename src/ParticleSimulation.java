@@ -226,6 +226,7 @@ public class ParticleSimulation extends JFrame{
         pY2.setText("");
         pA2.setText("");
         pV2.setText("");
+        pN.setText("");
     }
 
     public static void main(String[] args) {
