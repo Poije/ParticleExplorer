@@ -1,4 +1,6 @@
 import java.awt.*;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -23,6 +25,13 @@ public class SimulationPanel extends JPanel{
     public SimulationPanel(){
         setBounds(50, 50, SIMULATION_WIDTH, SIMULATION_HEIGHT);
         setBackground(Color.WHITE);
+        addMouseListener(new MouseAdapter() {
+            public void mouseClicked(MouseEvent e){
+                double x = e.getX();
+                double y = e.getY();
+                addExplorer(x, y);
+            } 
+        });
         executorService.execute(() -> {
             while (true) {
                 updateSimulation();
@@ -71,6 +80,13 @@ public class SimulationPanel extends JPanel{
         walls.add(wall);
         wall.setBounds(0,0, 1280,720);
         this.add(wall);
+        SwingUtilities.invokeLater(this::repaint);
+    }
+
+    public void addExplorer(double x, double y){
+        Explorer explorer = new Explorer(x, y);
+        explorer.setBounds(0,0, 1280,720);
+        this.add(explorer);
         SwingUtilities.invokeLater(this::repaint);
     }
     protected void paintComponent(Graphics g){
