@@ -24,11 +24,7 @@ public class ParticleSimulation extends JFrame{
     private final JPanel controlPanel = new JPanel(null);
     private JComboBox<String> addParticleDropdown;
     private JButton particleAddButton;
-    private JButton wallAddButton;
     private final JPanel particleFieldControlPanel = new JPanel(null);
-    private final JPanel wallControlPanel = new JPanel(null);
-    private final JPanel wallFieldControlPanel = new JPanel(null);
-    private JPanel opt1Panel, opt2Panel, opt3Panel, opt4Panel;
     private JTextField pX1 = new JTextField();
     private JTextField pY1 = new JTextField();
     private JTextField pV1 = new JTextField();
@@ -38,10 +34,6 @@ public class ParticleSimulation extends JFrame{
     private JTextField pV2 = new JTextField();
     private JTextField pA2 = new JTextField();
     private JTextField pN = new JTextField();
-    private JTextField wallX1 = new JTextField();
-    private JTextField wallY1 = new JTextField();
-    private JTextField wallX2 = new JTextField();
-    private JTextField wallY2 = new JTextField();
     private JCheckBox opt2 = new JCheckBox();
     private JCheckBox opt3 = new JCheckBox();
     private JCheckBox opt4 = new JCheckBox();
@@ -61,8 +53,8 @@ public class ParticleSimulation extends JFrame{
     }
 
     public void createControlPanel(){
-        controlPanel.setBounds(1380, 50, 250, 820);
-        controlPanel.setLayout(new GridLayout(2, 1, 0, 0));
+        controlPanel.setBounds(1380, 50, 250, 720);
+        controlPanel.setLayout(new GridLayout(1, 1, 0, 0));
         controlPanel.setBackground(Color.WHITE);
         
         //"Single Particle", "Multiple Particle, Varying Start", "Multiple Particle, Varying Angle", "Multiple Particle, Varying Velocity"});
@@ -175,38 +167,6 @@ public class ParticleSimulation extends JFrame{
         particleControlPanel.add(particleFieldControlPanel);
         particleControlPanel.add(particleAddButton);
         controlPanel.add(particleControlPanel);
-        wallControlPanel.setLayout(new BoxLayout(wallControlPanel, BoxLayout.Y_AXIS));
-        wallFieldControlPanel.setLayout(new GridLayout(0,2));
-        wallFieldControlPanel.add(new JLabel("X1:"));
-        wallFieldControlPanel.add(wallX1);
-        wallFieldControlPanel.add(new JLabel("Y1:"));
-        wallFieldControlPanel.add(wallY1);
-        wallFieldControlPanel.add(new JLabel("X2:"));
-        wallFieldControlPanel.add(wallX2);
-        wallFieldControlPanel.add(new JLabel("Y2:"));
-        wallFieldControlPanel.add(wallY2);
-
-        wallControlPanel.add(wallFieldControlPanel);
-        wallAddButton = new JButton("Add Wall");
-        wallAddButton.setSize(230, 20);
-        wallAddButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(java.awt.event.ActionEvent e){
-                double x1 = Integer.parseInt(wallX1.getText());
-                double y1 = Double.parseDouble(wallY1.getText());
-                double x2 = Integer.parseInt(wallX2.getText());
-                double y2 = Double.parseDouble(wallY2.getText());
-
-                simulationPanel.addWall(x1, y1, x2, y2);
-
-                wallX1.setText("");
-                wallY1.setText("");
-                wallX2.setText("");
-                wallY2.setText("");
-            }
-        });
-        wallControlPanel.add(wallAddButton);
-        controlPanel.add(wallControlPanel);
     }
 
     public void disableMultiples(){

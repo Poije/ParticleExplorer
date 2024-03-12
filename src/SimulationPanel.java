@@ -14,7 +14,6 @@ import javax.swing.SwingUtilities;
 
 public class SimulationPanel extends JPanel{
     private List<Particle> particles = Collections.synchronizedList(new ArrayList<Particle>());
-    private List<Wall> walls = Collections.synchronizedList(new ArrayList<Wall>());
     private final int SIMULATION_WIDTH = 1280;
     private final int SIMULATION_HEIGHT = 720;
     private final int THREAD_COUNT = 8;
@@ -101,14 +100,6 @@ public class SimulationPanel extends JPanel{
         }
     }
 
-    public void addWall(double x1, double y1, double x2, double y2){
-        Wall wall = new Wall(x1, y1, x2, y2);
-        walls.add(wall);
-        wall.setBounds(0,0, 1280,720);
-        this.add(wall);
-        SwingUtilities.invokeLater(this::repaint);
-    }
-
     public void addExplorer(double x, double y){
         if (explorer != null){
             this.remove(explorer);
@@ -118,6 +109,7 @@ public class SimulationPanel extends JPanel{
         this.add(explorer);
         SwingUtilities.invokeLater(this::repaint);
     }
+    
     protected void paintComponent(Graphics g){
         super.paintComponent(g);
         
@@ -138,10 +130,8 @@ public class SimulationPanel extends JPanel{
 
     public void updateSimulation(){
         synchronized (this.particles){
-            synchronized(this.walls){
-                for (Particle particle : this.particles) {
-                    particle.updatePosition(0.1, walls);
-                }
+            for (Particle particle : this.particles) {
+                particle.updatePosition(0.1);
             }
         }
         SwingUtilities.invokeLater(this::repaint);
