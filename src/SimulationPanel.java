@@ -21,6 +21,7 @@ public class SimulationPanel extends JPanel{
     public static int frameCount = 0;
     public static int previousFPS = 0;
     public long lastFPSCheck = 0;
+    public Explorer explorer;
 
     public SimulationPanel(){
         setBounds(50, 50, SIMULATION_WIDTH, SIMULATION_HEIGHT);
@@ -84,11 +85,16 @@ public class SimulationPanel extends JPanel{
     }
 
     public void addExplorer(double x, double y){
-        Explorer explorer = new Explorer(x, y);
+        if (explorer != null){
+            this.remove(explorer);
+        }
+        explorer = new Explorer(x, y);
         explorer.setBounds(0,0, 1280,720);
         this.add(explorer);
         SwingUtilities.invokeLater(this::repaint);
     }
+
+
     protected void paintComponent(Graphics g){
         super.paintComponent(g);
         
