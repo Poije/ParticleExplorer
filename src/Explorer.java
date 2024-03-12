@@ -2,8 +2,8 @@ import javax.swing.JComponent;
 import java.awt.*;
 
 public class Explorer extends JComponent {
-    private double x_coord;
-    private double y_coord;
+    public double x_coord;
+    public double y_coord;
 
     public Explorer(double x, double y){
         this.x_coord = x;

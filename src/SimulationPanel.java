@@ -1,4 +1,6 @@
 import java.awt.*;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
@@ -26,12 +28,35 @@ public class SimulationPanel extends JPanel{
     public SimulationPanel(){
         setBounds(50, 50, SIMULATION_WIDTH, SIMULATION_HEIGHT);
         setBackground(Color.WHITE);
+        setFocusable(true);
         addMouseListener(new MouseAdapter() {
             public void mouseClicked(MouseEvent e){
                 double x = e.getX();
                 double y = e.getY();
+                requestFocusInWindow();
                 addExplorer(x, y);
             } 
+        });
+        addKeyListener(new KeyAdapter() {
+            public void keyPressed(KeyEvent e){
+                if (explorer != null){
+                    switch (e.getKeyCode()){
+                        case KeyEvent.VK_W:
+                            explorer.y_coord -= 5;
+                            break;
+                        case KeyEvent.VK_A:
+                            explorer.x_coord -= 5;
+                            break;
+                        case KeyEvent.VK_S:
+                            explorer.y_coord += 5;
+                            break;
+                        case KeyEvent.VK_D:
+                            explorer.x_coord += 5;
+                            break;
+                    }
+                    repaint();
+                }
+            }
         });
         executorService.execute(() -> {
             while (true) {
@@ -93,8 +118,6 @@ public class SimulationPanel extends JPanel{
         this.add(explorer);
         SwingUtilities.invokeLater(this::repaint);
     }
-
-
     protected void paintComponent(Graphics g){
         super.paintComponent(g);
         
