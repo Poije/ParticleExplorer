@@ -16,15 +16,18 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.SwingUtilities;
+import javax.swing.JToggleButton;
 
 public class ParticleSimulation extends JFrame{
     //private final ExecutorService executorService;
     private final SimulationPanel simulationPanel;
     private final JPanel particleControlPanel = new JPanel(null);
+    private final JPanel particleFieldControlPanel = new JPanel(null);
+    private final JPanel modeControlPanel = new JPanel(null);
+    private final JPanel modeFieldControlPanel = new JPanel(null);
     private final JPanel controlPanel = new JPanel(null);
     private JComboBox<String> addParticleDropdown;
     private JButton particleAddButton;
-    private final JPanel particleFieldControlPanel = new JPanel(null);
     private JTextField pX1 = new JTextField();
     private JTextField pY1 = new JTextField();
     private JTextField pV1 = new JTextField();
@@ -54,11 +57,11 @@ public class ParticleSimulation extends JFrame{
 
     public void createControlPanel(){
         controlPanel.setBounds(1380, 50, 250, 720);
-        controlPanel.setLayout(new GridLayout(1, 1, 0, 0));
-        controlPanel.setBackground(Color.WHITE);
+        controlPanel.setLayout(new BoxLayout(controlPanel, BoxLayout.Y_AXIS));
+        // controlPanel.setBackground(Color.WHITE);
         
         //"Single Particle", "Multiple Particle, Varying Start", "Multiple Particle, Varying Angle", "Multiple Particle, Varying Velocity"});
-        
+
         particleControlPanel.setLayout(new BoxLayout(particleControlPanel, BoxLayout.Y_AXIS));
         particleFieldControlPanel.setLayout(new GridLayout(0,2));
         particleFieldControlPanel.add(new JLabel("X1:"));
@@ -166,7 +169,29 @@ public class ParticleSimulation extends JFrame{
         });
         particleControlPanel.add(particleFieldControlPanel);
         particleControlPanel.add(particleAddButton);
+
+        modeControlPanel.setLayout(new GridLayout(3,1));
+        modeFieldControlPanel.setLayout(new GridLayout(0,1));
+        modeFieldControlPanel.add(new JLabel("Choose Mode:"));
+        JToggleButton modeToggleButton = new JToggleButton("Developer Mode", true);
+        modeToggleButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if (modeToggleButton.isSelected()) {
+                    modeToggleButton.setText("Developer Mode");
+                    // Perform any additional actions when Developer Mode is selected
+                } else {
+                    modeToggleButton.setText("Explorer Mode");
+                    // Perform any additional actions when Explorer Mode is selected
+                }
+            }
+        });
+        modeControlPanel.add(modeFieldControlPanel);
+        modeControlPanel.add(modeToggleButton);
+
+        controlPanel.add(modeControlPanel);
         controlPanel.add(particleControlPanel);
+        
     }
 
     public void disableMultiples(){
