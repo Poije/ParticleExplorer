@@ -180,9 +180,11 @@ public class ParticleSimulation extends JFrame{
                 if (modeToggleButton.isSelected()) {
                     modeToggleButton.setText("Developer Mode");
                     // Perform any additional actions when Developer Mode is selected
+                    simulationPanel.changeDevMode(true);
                 } else {
                     modeToggleButton.setText("Explorer Mode");
                     // Perform any additional actions when Explorer Mode is selected
+                    simulationPanel.changeDevMode(false);
                 }
             }
         });

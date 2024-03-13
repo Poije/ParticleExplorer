@@ -17,46 +17,22 @@ public class SimulationPanel extends JPanel{
     private final int SIMULATION_WIDTH = 1280;
     private final int SIMULATION_HEIGHT = 720;
     private final int THREAD_COUNT = 8;
+
     //private final ExecutorService executorService = Executors.newFixedThreadPool(THREAD_COUNT);
     private final ExecutorService executorService = Executors.newWorkStealingPool();
+
     public static int frameCount = 0;
     public static int previousFPS = 0;
     public long lastFPSCheck = 0;
+
     public Explorer explorer;
+    private boolean isDevMode = true;
 
     public SimulationPanel(){
         setBounds(50, 50, SIMULATION_WIDTH, SIMULATION_HEIGHT);
         setBackground(Color.WHITE);
         setFocusable(true);
-        addMouseListener(new MouseAdapter() {
-            public void mouseClicked(MouseEvent e){
-                double x = e.getX();
-                double y = e.getY();
-                requestFocusInWindow();
-                addExplorer(x, y);
-            } 
-        });
-        addKeyListener(new KeyAdapter() {
-            public void keyPressed(KeyEvent e){
-                if (explorer != null){
-                    switch (e.getKeyCode()){
-                        case KeyEvent.VK_W:
-                            explorer.y_coord -= 5;
-                            break;
-                        case KeyEvent.VK_A:
-                            explorer.x_coord -= 5;
-                            break;
-                        case KeyEvent.VK_S:
-                            explorer.y_coord += 5;
-                            break;
-                        case KeyEvent.VK_D:
-                            explorer.x_coord += 5;
-                            break;
-                    }
-                    repaint();
-                }
-            }
-        });
+        initializeListeners();
         executorService.execute(() -> {
             while (true) {
                 updateSimulation();
@@ -109,7 +85,7 @@ public class SimulationPanel extends JPanel{
         this.add(explorer);
         SwingUtilities.invokeLater(this::repaint);
     }
-    
+
     protected void paintComponent(Graphics g){
         super.paintComponent(g);
         
@@ -136,5 +112,50 @@ public class SimulationPanel extends JPanel{
         }
         SwingUtilities.invokeLater(this::repaint);
         frameCount++;
+    }
+
+    public void changeDevMode(boolean isDev){
+        this.isDevMode = isDev;
+    }
+
+    private void initializeListeners() {
+        addMouseListener(new MouseAdapter() {
+            public void mouseClicked(MouseEvent e) {
+                if (!isDevMode) { 
+                    double x = e.getX();
+                    double y = e.getY();
+                    requestFocusInWindow();
+                    addExplorer(x, y);
+                }
+            }
+        });
+
+        // Key listener
+        addKeyListener(new KeyAdapter() {
+            public void keyPressed(KeyEvent e) {
+                if (!isDevMode && explorer != null) { 
+                    switch (e.getKeyCode()) {
+                        case KeyEvent.VK_W:
+                            explorer.y_coord -= 5;
+                            break;
+                        case KeyEvent.VK_A:
+                            explorer.x_coord -= 5;
+                            break;
+                        case KeyEvent.VK_S:
+                            explorer.y_coord += 5;
+                            break;
+                        case KeyEvent.VK_D:
+                            explorer.x_coord += 5;
+                            break;
+                    }
+                }
+            }
+        });
+    }
+
+    private boolean isParticleInPeriphery(Particle particle) {
+        // Implement logic to determine if the particle is within the periphery
+        // This could involve checking the particle's coordinates against the explorer's location
+        return true; // Placeholder return value
     }
 }
