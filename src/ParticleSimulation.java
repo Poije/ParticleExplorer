@@ -8,6 +8,8 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 import javax.swing.BoxLayout;
+import javax.swing.ButtonGroup;
+import java.awt.FlowLayout;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
@@ -170,26 +172,44 @@ public class ParticleSimulation extends JFrame{
         particleControlPanel.add(particleFieldControlPanel);
         particleControlPanel.add(particleAddButton);
 
-        modeControlPanel.setLayout(new GridLayout(3,1));
-        modeFieldControlPanel.setLayout(new GridLayout(0,1));
+        modeControlPanel.setLayout(new GridLayout(3, 1)); 
+
+        JPanel toggleButtonPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
+
+        modeFieldControlPanel.removeAll(); 
+        modeFieldControlPanel.setLayout(new GridLayout(1, 1)); 
         modeFieldControlPanel.add(new JLabel("Choose Mode:"));
-        JToggleButton modeToggleButton = new JToggleButton("Developer Mode", true);
-        modeToggleButton.addActionListener(new ActionListener() {
+
+        // Creating the toggle buttons
+        JToggleButton developerToggleButton = new JToggleButton("Developer", true);
+        developerToggleButton.setBackground(Color.LIGHT_GRAY);
+
+        JToggleButton explorerToggleButton = new JToggleButton("Explorer", false);
+        explorerToggleButton.setBackground(Color.LIGHT_GRAY);
+
+        ButtonGroup modeButtonGroup = new ButtonGroup();
+        modeButtonGroup.add(developerToggleButton);
+        modeButtonGroup.add(explorerToggleButton);
+
+        developerToggleButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                if (modeToggleButton.isSelected()) {
-                    modeToggleButton.setText("Developer Mode");
-                    // Perform any additional actions when Developer Mode is selected
-                    simulationPanel.changeDevMode(true);
-                } else {
-                    modeToggleButton.setText("Explorer Mode");
-                    // Perform any additional actions when Explorer Mode is selected
-                    simulationPanel.changeDevMode(false);
-                }
+                simulationPanel.changeDevMode(true);
             }
         });
+
+        explorerToggleButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                simulationPanel.changeDevMode(false);
+            }
+        });
+
+        toggleButtonPanel.add(developerToggleButton);
+        toggleButtonPanel.add(explorerToggleButton);
+
         modeControlPanel.add(modeFieldControlPanel);
-        modeControlPanel.add(modeToggleButton);
+        modeControlPanel.add(toggleButtonPanel);
 
         controlPanel.add(modeControlPanel);
         controlPanel.add(particleControlPanel);
