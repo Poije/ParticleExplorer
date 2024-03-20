@@ -83,7 +83,7 @@ public class SimulationPanel extends JPanel{
         if (explorer != null){
             this.remove(explorer);
         }
-        explorer = new Explorer(x, y);
+        explorer = new Explorer(x, y, true);
         explorer.setBounds(0,0, 1280,720);
         this.add(explorer);
         zoom = 5;
@@ -115,6 +115,15 @@ public class SimulationPanel extends JPanel{
         synchronized (this.particles){
             for (Particle particle : this.particles) {
                 particle.updatePosition(0.1, zoom);
+                if (explorer != null){
+                    if (isParticleInPeriphery(particle)){
+                        particle.Particlerepaint(true);
+                    }
+                    else{
+                        particle.Particlerepaint(false);
+                        System.out.println("Particle is not in periphery");
+                    }
+                }
             }
         }
         if (explorer != null) {
@@ -148,13 +157,13 @@ public class SimulationPanel extends JPanel{
                 if (!isDevMode && explorer != null) { 
                     switch (e.getKeyCode()) {
                         case KeyEvent.VK_W:
-                            explorer.y_coord -= 5;
+                            explorer.y_coord += 5;
                             break;
                         case KeyEvent.VK_A:
                             explorer.x_coord -= 5;
                             break;
                         case KeyEvent.VK_S:
-                            explorer.y_coord += 5;
+                            explorer.y_coord -= 5;
                             break;
                         case KeyEvent.VK_D:
                             explorer.x_coord += 5;
@@ -166,6 +175,20 @@ public class SimulationPanel extends JPanel{
     }
 
     private boolean isParticleInPeriphery(Particle particle) {
+        double x = explorer.x_coord;
+        double y = explorer.y_coord;
+        System.out.println("Explorer y: " + y);
+        double particleX = particle.getXCoord();
+        double particleY = particle.getYCoord();
+        System.out.println("Particle Y: " + particleY);
+        double rowDistance = Math.abs(particleX - x);
+        double colDistance = Math.abs(particleY - y);
+
+        System.out.println("Row distance: " + rowDistance);
+        System.out.println("Col distance: " + colDistance);
+        if (rowDistance > 19 || colDistance > 33){
+            return false;
+        }
         // Implement logic to determine if the particle is within the periphery
         // This could involve checking the particle's coordinates against the explorer's location
         return true; // Placeholder return value

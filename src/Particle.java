@@ -1,5 +1,6 @@
 import java.awt.Color;
 import java.awt.Graphics;
+import java.awt.Shape;
 import java.util.List;
 import java.util.ArrayList;
 
@@ -12,6 +13,7 @@ public class Particle extends JComponent{
     private double velocity;
     private double angle;
     private int zoom = 1;
+    private boolean isVisible = true;
 
     public Particle(double x, double y, double velocity, double angle){
         this.x_coord = x;
@@ -33,6 +35,10 @@ public class Particle extends JComponent{
         x_coord += getVelocityX() * time;
         y_coord += getVelocityY() * time;
         this.zoom = zoom;
+    }
+
+    public void Particlerepaint(boolean isVisible){
+        this.isVisible = isVisible;
         repaint();
     }
 
@@ -60,8 +66,12 @@ public class Particle extends JComponent{
     @Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
-        g.setColor(Color.RED);
-        g.fillOval((int) x_coord - 5, 720 - (int)y_coord - 5, 10 * zoom, 10 * zoom);
-        
+        if (isVisible){
+            g.setColor(Color.RED);
+            g.fillOval((int) x_coord - 5, 720 - (int)y_coord - 5, 10 * zoom, 10 * zoom);
+        }
+        else{
+            g.setColor(getBackground());
+        }   
     }
 }
