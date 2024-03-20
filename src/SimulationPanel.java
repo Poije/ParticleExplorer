@@ -8,6 +8,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import java.awt.geom.AffineTransform;
 
 import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
@@ -86,24 +87,60 @@ public class SimulationPanel extends JPanel{
         SwingUtilities.invokeLater(this::repaint);
     }
 
-    protected void paintComponent(Graphics g){
+    @Override
+    protected void paintComponent(Graphics g) {
         super.paintComponent(g);
-        
+    
+        drawFPSInfo(g);
+    
+        if (!isDevMode && explorer != null) {
+            Graphics2D g2 = (Graphics2D) g;
+
+            double zoomFactor = 10.0;  
+            applyZoomAndCenter(g2, explorer.x_coord, explorer.y_coord, zoomFactor);
+
+            for (Particle particle : particles) {
+                particle.paintComponent(g2);
+            }
+    
+            explorer.paintComponent(g2);
+        } else {
+            for (Particle particle : particles) {
+                particle.paintComponent(g);
+            }
+
+            if (explorer != null) {
+                explorer.paintComponent(g);
+            }
+        }
+    }
+    
+    private void applyZoomAndCenter(Graphics2D g2d, double x, double y, double zoomFactor) {
+        int centerX = SIMULATION_WIDTH / 2;
+        int centerY = SIMULATION_HEIGHT / 2;
+    
+        AffineTransform transform = AffineTransform.getTranslateInstance(centerX, centerY);
+        transform.scale(zoomFactor, zoomFactor);
+        transform.translate(-x, -y);
+    
+        g2d.setTransform(transform);
+    }
+    
+    private void drawFPSInfo(Graphics g) {
         g.setColor(Color.BLACK);
         g.setFont(new Font("Arial", Font.BOLD, 12));
         long currentTime = System.currentTimeMillis();
-        if (currentTime - lastFPSCheck >= 500){
+        if (currentTime - lastFPSCheck >= 500) {
             frameCount = (int) (frameCount / ((currentTime - lastFPSCheck) / 1000.0));
             g.drawString("FPS: " + frameCount, 10, 20);
             previousFPS = frameCount;
             frameCount = 0;
             lastFPSCheck = currentTime;
-        }
-        else{
+        } else {
             g.drawString("FPS: " + previousFPS, 10, 20);
         }
     }
-
+    
     public void updateSimulation(){
         synchronized (this.particles){
             for (Particle particle : this.particles) {
@@ -116,6 +153,7 @@ public class SimulationPanel extends JPanel{
 
     public void changeDevMode(boolean isDev){
         this.isDevMode = isDev;
+        requestFocusInWindow();
     }
 
     private void initializeListeners() {
@@ -130,32 +168,26 @@ public class SimulationPanel extends JPanel{
             }
         });
 
-        // Key listener
         addKeyListener(new KeyAdapter() {
             public void keyPressed(KeyEvent e) {
                 if (!isDevMode && explorer != null) { 
+                    int explorerRadius = 10; 
                     switch (e.getKeyCode()) {
                         case KeyEvent.VK_W:
-                            explorer.y_coord -= 5;
+                            explorer.y_coord = Math.max(explorerRadius, explorer.y_coord - 5);
                             break;
                         case KeyEvent.VK_A:
-                            explorer.x_coord -= 5;
+                            explorer.x_coord = Math.max(explorerRadius, explorer.x_coord - 5);
                             break;
                         case KeyEvent.VK_S:
-                            explorer.y_coord += 5;
+                            explorer.y_coord = Math.min(SIMULATION_HEIGHT - explorerRadius, explorer.y_coord + 5);
                             break;
                         case KeyEvent.VK_D:
-                            explorer.x_coord += 5;
+                            explorer.x_coord = Math.min(SIMULATION_WIDTH - explorerRadius, explorer.x_coord + 5);
                             break;
                     }
                 }
             }
         });
-    }
-
-    private boolean isParticleInPeriphery(Particle particle) {
-        // Implement logic to determine if the particle is within the periphery
-        // This could involve checking the particle's coordinates against the explorer's location
-        return true; // Placeholder return value
     }
 }
