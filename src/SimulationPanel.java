@@ -116,7 +116,7 @@ public class SimulationPanel extends JPanel{
             for (Particle particle : this.particles) {
                 particle.updatePosition(0.1, zoom);
                 if (explorer != null){
-                    if (isParticleInPeriphery(particle)){
+                    if (isParticleInPeriphery(particle) || isDevMode){
                         particle.Particlerepaint(true);
                     }
                     else{
@@ -137,6 +137,7 @@ public class SimulationPanel extends JPanel{
 
     public void changeDevMode(boolean isDev){
         this.isDevMode = isDev;
+        zoom = 1;
     }
 
     private void initializeListeners() {
