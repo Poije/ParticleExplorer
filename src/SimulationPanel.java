@@ -157,13 +157,13 @@ public class SimulationPanel extends JPanel{
                 if (!isDevMode && explorer != null) { 
                     switch (e.getKeyCode()) {
                         case KeyEvent.VK_W:
-                            explorer.y_coord += 5;
+                            explorer.y_coord -= 5;
                             break;
                         case KeyEvent.VK_A:
                             explorer.x_coord -= 5;
                             break;
                         case KeyEvent.VK_S:
-                            explorer.y_coord -= 5;
+                            explorer.y_coord += 5;
                             break;
                         case KeyEvent.VK_D:
                             explorer.x_coord += 5;
@@ -176,7 +176,7 @@ public class SimulationPanel extends JPanel{
 
     private boolean isParticleInPeriphery(Particle particle) {
         double x = explorer.x_coord;
-        double y = explorer.y_coord;
+        double y = 720 - explorer.y_coord; // Y coordinate is inverted
         System.out.println("Explorer y: " + y);
         double particleX = particle.getXCoord();
         double particleY = particle.getYCoord();
