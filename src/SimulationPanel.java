@@ -94,10 +94,16 @@ public class SimulationPanel extends JPanel{
         drawFPSInfo(g);
     
         if (!isDevMode && explorer != null) {
+            setBackground(Color.BLACK);
             Graphics2D g2 = (Graphics2D) g;
 
             double zoomFactor = 10.0;  
             applyZoomAndCenter(g2, explorer.x_coord, explorer.y_coord, zoomFactor);
+            
+            g2.setColor(Color.WHITE);
+            g2.fillRect(0, 0, getWidth(), getHeight());
+
+            //g2.setClip(0, 0, SIMULATION_WIDTH, SIMULATION_HEIGHT);
 
             for (Particle particle : particles) {
                 particle.paintComponent(g2);
@@ -105,6 +111,7 @@ public class SimulationPanel extends JPanel{
     
             explorer.paintComponent(g2);
         } else {
+            setBackground(Color.WHITE);
             for (Particle particle : particles) {
                 particle.paintComponent(g);
             }
