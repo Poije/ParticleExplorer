@@ -11,6 +11,7 @@ public class Particle extends JComponent{
     private double y_coord;
     private double velocity;
     private double angle;
+    private int zoom = 1;
 
     public Particle(double x, double y, double velocity, double angle){
         this.x_coord = x;
@@ -20,7 +21,7 @@ public class Particle extends JComponent{
         repaint();
     }
 
-    public void updatePosition(double time){
+    public void updatePosition(double time, int zoom){
         double x2 = x_coord + getVelocityX() * time;
         double y2 = y_coord + getVelocityY() * time;
         if (x2 <= 0 || x2 >= 1280){
@@ -31,6 +32,7 @@ public class Particle extends JComponent{
         }
         x_coord += getVelocityX() * time;
         y_coord += getVelocityY() * time;
+        this.zoom = zoom;
         repaint();
     }
 
@@ -59,6 +61,7 @@ public class Particle extends JComponent{
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
         g.setColor(Color.RED);
-        g.fillOval((int) x_coord - 5, 720 - (int)y_coord - 5, 10, 10);
+        g.fillOval((int) x_coord - 5, 720 - (int)y_coord - 5, 10 * zoom, 10 * zoom);
+        
     }
 }

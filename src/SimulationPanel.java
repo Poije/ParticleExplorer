@@ -25,6 +25,9 @@ public class SimulationPanel extends JPanel{
     public static int previousFPS = 0;
     public long lastFPSCheck = 0;
 
+    private int zoom = 1;
+    private double xOffset = 0;
+    private double yOffset = 0;
     public Explorer explorer;
     private boolean isDevMode = true;
 
@@ -83,6 +86,9 @@ public class SimulationPanel extends JPanel{
         explorer = new Explorer(x, y);
         explorer.setBounds(0,0, 1280,720);
         this.add(explorer);
+        zoom = 5;
+        xOffset = x * zoom - getWidth() / 5;
+        yOffset = y * zoom - getHeight() / 5;
         SwingUtilities.invokeLater(this::repaint);
     }
 
@@ -91,6 +97,7 @@ public class SimulationPanel extends JPanel{
         
         g.setColor(Color.BLACK);
         g.setFont(new Font("Arial", Font.BOLD, 12));
+
         long currentTime = System.currentTimeMillis();
         if (currentTime - lastFPSCheck >= 500){
             frameCount = (int) (frameCount / ((currentTime - lastFPSCheck) / 1000.0));
@@ -101,14 +108,19 @@ public class SimulationPanel extends JPanel{
         }
         else{
             g.drawString("FPS: " + previousFPS, 10, 20);
-        }
+        }    
     }
 
     public void updateSimulation(){
         synchronized (this.particles){
             for (Particle particle : this.particles) {
-                particle.updatePosition(0.1);
+                particle.updatePosition(0.1, zoom);
             }
+        }
+        if (explorer != null) {
+            // Adjust offset to follow explorer's movement
+            xOffset = explorer.x_coord * zoom - getWidth() / zoom;
+            yOffset = explorer.y_coord * zoom - getHeight() / zoom;
         }
         SwingUtilities.invokeLater(this::repaint);
         frameCount++;
