@@ -16,7 +16,7 @@ public class Explorer extends JComponent {
     protected void paintComponent(Graphics g){
         super.paintComponent(g);
         g.setColor(Color.BLUE);
-        int radius = 10; 
-        g.fillOval((int) x_coord - radius, (int) y_coord - radius, 20, 20);
+        double radius = 10.0; 
+        g.fillOval((int) x_coord - (int) radius, (int) y_coord - (int) radius, 20, 20);
     }
 }
