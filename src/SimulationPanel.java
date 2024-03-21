@@ -91,7 +91,7 @@ public class SimulationPanel extends JPanel{
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
     
-        drawFPSInfo(g);
+        Graphics2D g3 = (Graphics2D) g.create();
     
         if (!isDevMode && explorer != null) {
             setBackground(Color.BLACK);
@@ -102,8 +102,6 @@ public class SimulationPanel extends JPanel{
             
             g2.setColor(Color.WHITE);
             g2.fillRect(0, 0, getWidth(), getHeight());
-
-            //g2.setClip(0, 0, SIMULATION_WIDTH, SIMULATION_HEIGHT);
 
             for (Particle particle : particles) {
                 particle.paintComponent(g2);
@@ -120,6 +118,8 @@ public class SimulationPanel extends JPanel{
                 explorer.paintComponent(g);
             }
         }
+
+        drawFPSInfo(g3);
     }
     
     private void applyZoomAndCenter(Graphics2D g2d, double x, double y, double zoomFactor) {
@@ -134,7 +134,7 @@ public class SimulationPanel extends JPanel{
     }
     
     private void drawFPSInfo(Graphics g) {
-        g.setColor(Color.BLACK);
+        g.setColor(Color.GRAY);
         g.setFont(new Font("Arial", Font.BOLD, 12));
         long currentTime = System.currentTimeMillis();
         if (currentTime - lastFPSCheck >= 500) {
