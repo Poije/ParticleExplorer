@@ -7,7 +7,7 @@
 
 ## How to Run
 
-- Open the `.jar` file in the main project folder. Or in a command line interface on the project main folder, use the command `java -jar ParticleSimulation.jar`
+- Open the `.jar` file in the main project folder. Or in a command line interface on the project main folder, use the command `java -jar ParticleExplorer.jar`
 
 ## How to Use
 ### Switching Between Modes 
