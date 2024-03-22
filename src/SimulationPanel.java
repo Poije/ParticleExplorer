@@ -97,7 +97,7 @@ public class SimulationPanel extends JPanel{
             setBackground(Color.BLACK);
             Graphics2D g2 = (Graphics2D) g;
 
-            double zoomFactor = 1.57;  
+            double zoomFactor = 1.94;  
             applyZoomAndCenter(g2, explorer.x_coord, explorer.y_coord, zoomFactor);
             
             g2.setColor(Color.WHITE);
